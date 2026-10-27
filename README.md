@@ -101,3 +101,24 @@ git log --oneline  # сокращённый лог: короткий хеш и �
 - `HEAD` — указатель на самый последний (текущий) коммит.
 - Файл `.git/HEAD` содержит ссылку на текущую ветку (`ref: refs/heads/main`), а в `.git/refs/heads/main` лежит хеш последнего коммита.
 - В командах слово `HEAD` можно использовать вместо хеша последнего коммита.
+
+## 9. Статусы файлов в Git
+
+- **untracked** — новый файл, Git его ещё не отслеживает.
+- **tracked** — файл отслеживается (был добавлен через `git add` или уже закоммичен).
+- **staged** — изменения подготовлены к коммиту (после `git add`).
+- **modified** — файл изменён после последнего коммита, но ещё не добавлен в staged.
+
+Схема словами: `untracked + git add = staged`, `staged + git commit = tracked`,
+`tracked + изменение = modified`, `modified + git add = staged`.
+
+```mermaid
+graph LR;
+  untracked -- "git add" --> staged;
+  staged -- "git commit" --> tracked;
+  tracked -- "изменение файла" --> modified;
+  modified -- "git add" --> staged;
+```
+
+`git status` показывает: `Untracked files`, `Changes to be committed` (staged),
+`Changes not staged for commit` (modified).
